@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Fit Code Selector</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .gradient-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .select-glow:focus {
+        box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+    }
+    
+    .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+    }
+    
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+    }
+    
+    .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    
+    .tooltip-trigger:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .tab-active {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+    }
+    
+    .code-badge {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    
+    .highlight-row {
+        background: linear-gradient(90deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+        border-left: 3px solid #a855f7;
+    }
+    
+    input[type="checkbox"]:checked {
+        background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+        border-color: #a78bfa;
+    }
+</style>
+</head>
+<body class="gradient-bg min-h-screen text-slate-100">
+    <div class="max-w-7xl mx-auto px-4 py-8 lg:px-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl glass mb-4">
+                <i class="fa-solid fa-dna text-3xl gradient-text"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 gradient-text">Ultimate Fit Code Selector</h1>
+            <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto">
+                Interactive configuration interface based on "Detailed Analysis of the Ultimate Best Penis and Vagina Fit for Women" document
+            </p>
+            <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs text-slate-400">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Educational Reference Only - No Explicit Content</span>
+            </div>
+        </header>
+
+        <!-- Main Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button onclick="switchTab('config')" id="tab-config" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all tab-active">
+                <i class="fa-solid fa-sliders mr-2"></i>Configuration
+            </button>
+            <button onclick="switchTab('compatibility')" id="tab-compatibility" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all glass">
+                <i class="fa-solid fa-scale-balanced mr-2"></i>Compatibility Check
+            </button>
+            <button onclick="switchTab('summary')" id="tab-summary" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all glass">
+                <i class="fa-solid fa-table-list mr-2"></i>Summary Output
+            </button>
+        </div>
+
+        <!-- Configuration Tab -->
+        <div id="content-config" class="tab-content">
+            <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                <!-- 1. Penis Characteristics -->
+                <div class="glass rounded-2xl p-6 hover:shadow-2xl hover:shadow-violet-500/20 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center mr-3">1</span>
+                            Penis Characteristics
+                        </h2>
+                        <div class="tooltip-trigger relative">
+                            <i class="fa-solid fa-circle-info text-slate-400 cursor-pointer"></i>
+                            <div class="tooltip absolute right-0 top-8 w-64 p-3 rounded-xl glass text-xs z-10">
+                                Section details penis configuration codes for tightness, throbbing patterns, and ejaculation control as defined in the source document.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tightness -->
+                    <div class="mb-5">
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Tightness
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-56 p-2 rounded-lg glass text-xs z-10">
+                                    Ref: Tightness Code per document specification
+                                </div>
+                            </div>
+                        </label>
+                        <select id="tightness" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">Select Tightness</option>
+                            <option value="7648287418">Standard Tightness: 7648287418</option>
+                        </select>
+                    </div>
+
+                    <!-- Throbbing Type -->
+                    <div class="mb-5">
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Throbbing Type
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-64 p-2 rounded-lg glass text-xs z-10">
+                                    Multiple throbbing patterns available. "In Pussy Hard" and "Tight Throbbing" are noted for enhanced fit.
+                                </div>
+                            </div>
+                        </label>
+                        <select id="throbbing" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">Select Throbbing Type</option>
+                            <option value="7677489827">Hard: 7677489827</option>
+                            <option value="7671386274">Hard Fast: 7671386274</option>
+                            <option value="7678584810">In Pussy: 7678584810</option>
+                            <option value="76779838687">In Pussy Hard: 76779838687</option>
+                            <option value="768938521">Tight Throbbing: 768938521</option>
+                            <option value="72859387">Soft: 72859387</option>
+                        </select>
+                    </div>
+
+                    <!-- Ejaculation Control -->
+                    <div>
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Ejaculation Control
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-56 p-2 rounded-lg glass text-xs z-10">
+                                    Timing control options: Slow or Timed per document
+                                </div>
+                            </div>
+                        </label>
+                        <select id="ejaculation" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">Select Control Type</option>
+                            <option value="7671875284">Slow: 7671875284</option>
+                            <option value="7674286293">Timed: 7674286293</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 2. Vagina Characteristics -->
+                <div class="glass rounded-2xl p-6 hover:shadow-2xl hover:shadow-pink-500/20 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center mr-3">2</span>
+                            Vagina Characteristics
+                        </h2>
+                        <div class="tooltip-trigger relative">
+                            <i class="fa-solid fa-circle-info text-slate-400 cursor-pointer"></i>
+                            <div class="tooltip absolute right-0 top-8 w-64 p-3 rounded-xl glass text-xs z-10">
+                                Rim hold and internal hold configurations. Multiple tightness levels available for optimal grip.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rim Hold -->
+                    <div class="mb-5">
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Rim Hold
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-64 p-2 rounded-lg glass text-xs z-10">
+                                    Rim hold intensity. "Tight Tight" indicates maximum rim grip per document page 3.
+                                </div>
+                            </div>
+                        </label>
+                        <select id="rimHold" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">Select Rim Hold</option>
+                            <option value="7284380892">Hold 1: 7284380892</option>
+                            <option value="72767586284">Hold 5: 72767586284</option>
+                            <option value="7298387543">Tight: 7298387543</option>
+                            <option value="7277185274">Tight Tight: 7277185274</option>
+                        </select>
+                    </div>
+
+                    <!-- Internal Hold -->
+                    <div class="mb-5">
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Internal Hold
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-64 p-2 rounded-lg glass text-xs z-10">
+                                    Internal grip mechanisms. Wet/Dry variants affect hold characteristics.
+                                </div>
+                            </div>
+                        </label>
+                        <select id="internalHold" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">Select Internal Hold</option>
+                            <option value="728518374">Tight Hold True: 728518374</option>
+                            <option value="7298963841">Holding Cock: 7298963841</option>
+                            <option value="727718721">Tight Grip Wet: 727718721</option>
+                            <option value="7277185284">Tight Grip Dry: 7277185284</option>
+                        </select>
+                    </div>
+
+                    <!-- Looseness Adjustments -->
+                    <div>
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-2">
+                            Looseness Adjustments
+                            <div class="tooltip-trigger relative ml-2">
+                                <i class="fa-solid fa-circle-question text-xs text-slate-500"></i>
+                                <div class="tooltip absolute left-0 top-6 w-64 p-2 rounded-lg glass text-xs z-10">
+                                    Optional looseness states. "No Grip" indicates reduced hold intensity.
+                                </div>
+                            </div>
+                        </label>
+                        <select id="looseness" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-sm select-glow focus:outline-none">
+                            <option value="">None (Default Tight)</option>
+                            <option value="721878562">Loose Loose Loose No Grip: 721878562</option>
+                            <option value="728753867">Loose Loose Loose No Grip but Wet: 728753867</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 3. Orgasmic & Arousal -->
+                <div class="glass rounded-2xl p-6 hover:shadow-2xl hover:shadow-fuchsia-500/20 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-fuchsia-500/20 flex items-center justify-center mr-3">3</span>
+                            Orgasmic & Arousal
+                        </h2>
+                        <div class="tooltip-trigger relative">
+                            <i class="fa-solid fa-circle-info text-slate-400 cursor-pointer"></i>
+                            <div class="tooltip absolute right-0 top-8 w-64 p-3 rounded-xl glass text-xs z-10">
+                                Sequential activation of squanks and arousal codes. Activate in numerical order for best results per document.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Squanks -->
+                    <div class="mb-5">
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-3">
+                            Activate Squanks in Sequence
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="squank1" value="7286984832" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Squank 1: 7286984832</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="squank2" value="7286984828" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Squank 2: 7286984828</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="squank10" value="789832108" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Squank 10: 789832108</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="squank21" value="7872384890" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Squank 21: 7872384890</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Arousal Codes -->
+                    <div>
+                        <label class="flex items-center text-sm font-medium text-slate-300 mb-3">
+                            Arousal Codes
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="arousalClit" value="728598761" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Clit: 728598761</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg bg-slate-900/30 hover:bg-slate-900/50 cursor-pointer transition-all">
+                                <input type="checkbox" id="arousalVagina" value="7298765421" class="w-4 h-4 rounded border-slate-600 mr-3">
+                                <span class="text-sm">Vagina: 7298765421</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Adjustment Panel -->
+            <div class="glass rounded-2xl p-6 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mr-3">5</span>
+                        Adjustment Panel
+                    </h2>
+                    <div class="tooltip-trigger relative">
+                        <i class="fa-solid fa-circle-info text-slate-400 cursor-pointer"></i>
+                        <div class="tooltip absolute right-0 top-8 w-72 p-3 rounded-xl glass text-xs z-10">
+                            Page 16 note: Verbal interaction "I can / no I can" causes vagina to perform harder. Use adjustments to fine-tune fit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Tighter Command -->
+                    <div>
+                        <label class="flex items-center justify-between text-sm font-medium text-slate-300 mb-3">
+                            <span>Tighter Tighter Command</span>
+                            <span id="tighterValue" class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 text-xs">Level: 0</span>
+                        </label>
+                        <input type="range" id="tighterSlider" min="0" max="5" value="0" class="slider w-full h-2 rounded-lg bg-slate-900/50 appearance-none cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-500 mt-2">
+                            <span>Off</span>
+                            <span>Maximum</span>
+                        </div>
+                    </div>
+
+                    <!-- Verbal Interaction -->
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 mb-3 block">Verbal Interaction (Page 16)</label>
+                        <div class="flex gap-3">
+                            <button onclick="toggleVerbal('can')" id="btnCan" class="flex-1 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 hover:border-violet-500 transition-all text-sm">
+                                <i class="fa-solid fa-comment mr-2"></i>"I can"
+                            </button>
+                            <button onclick="toggleVerbal('nocan')" id="btnNoCan" class="flex-1 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 hover:border-pink-500 transition-all text-sm">
+                                <i class="fa-solid fa-comment-slash mr-2"></i>"no I can"
+                            </button>
+                        </div>
+                        <p id="verbalStatus" class="text-xs text-slate-400 mt-2">Status: Inactive</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                    <p class="text-xs text-amber-200 flex items-start">
+                        <i class="fa-solid fa-triangle-exclamation mr-2 mt-0.5"></i>
+                        <span>Note: "Activate squanks in order" and "Tighter tighter" commands referenced per document. Verbal interaction increases performance intensity.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compatibility Check Tab -->
+        <div id="content-compatibility" class="tab-content hidden">
+            <div class="glass rounded-2xl p-8">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500/20 to-pink-500/20 mb-4">
+                        <i class="fa-solid fa-scale-balanced text-4xl gradient-text"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Compatibility Analysis</h2>
+                    <p class="text-slate-400 text-sm">Per document rule: codes should correspond for firm comfortable fit without pain</p>
+                </div>
+
+                <div class="max-w-3xl mx-auto">
+                    <button onclick="runCompatibilityCheck()" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 font-semibold text-lg transition-all shadow-lg hover:shadow-violet-500/50">
+                        <i class="fa-solid fa-flask-vial mr-2"></i>Run Compatibility Check
+                    </button>
+
+                    <div id="compatibilityResult" class="mt-8 hidden">
+                        <div class="glass rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <i class="fa-solid fa-clipboard-check mr-2 text-violet-400"></i>
+                                Analysis Results
+                            </h3>
+                            <div id="compatibilityStatus" class="text-lg mb-4"></div>
+                            <div id="compatibilityDetails" class="space-y-3 text-sm"></div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6">
+                            <h4 class="font-semibold mb-3 text-slate-300">Decision Logic</h4>
+                            <div class="space-y-2 text-xs text-slate-400">
+                                <p><i class="fa-solid fa-check text-green-400 mr-2"></i><strong>Match:</strong> Tightness + Tight Throbbing pairs with Tight/Tight Tight rim hold</p>
+                                <p><i class="fa-solid fa-check text-green-400 mr-2"></i><strong>Match:</strong> Hard/Hard Fast throbbing pairs with Hold 1/5</p>
+                                <p><i class="fa-solid fa-check text-green-400 mr-2"></i><strong>Match:</strong> Soft throbbing pairs with loose adjustments</p>
+                                <p><i class="fa-solid fa-xmark text-red-400 mr-2"></i><strong>Adjust:</strong> Mismatched tightness levels may cause discomfort</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Output Tab -->
+        <div id="content-summary" class="tab-content hidden">
+            <div class="glass rounded-2xl p-8">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 mb-4">
+                        <i class="fa-solid fa-table-list text-4xl text-emerald-400"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Summary Output</h2>
+                    <p class="text-slate-400 text-sm">"Best of Both" table from page 3 with current selections highlighted</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Penis Codes -->
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-violet-300 flex items-center">
+                            <i class="fa-solid fa-mars mr-2"></i>Penis Configuration
+                        </h3>
+                        <div id="penisCodeList" class="space-y-2 font-mono text-sm">
+                            <p class="text-slate-500">No codes selected</p>
+                        </div>
+                    </div>
+
+                    <!-- Vagina Codes -->
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-pink-300 flex items-center">
+                            <i class="fa-solid fa-venus mr-2"></i>Vagina Configuration
+                        </h3>
+                        <div id="vaginaCodeList" class="space-y-2 font-mono text-sm">
+                            <p class="text-slate-500">No codes selected</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best of Both Table -->
+                <div class="glass rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fa-solid fa-star mr-2 text-amber-400"></i>Best of Both - Page 3 Reference
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-700">
+                                    <th class="text-left py-3 px-4 text-slate-300">Category</th>
+                                    <th class="text-left py-3 px-4 text-slate-300">Optimal Code</th>
+                                    <th class="text-left py-3 px-4 text-slate-300">Description</th>
+                                    <th class="text-center py-3 px-4 text-slate-300">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bestOfBothTable">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Export Button -->
+                <div class="mt-6 flex justify-center">
+                    <button onclick="exportConfiguration()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 font-semibold transition-all shadow-lg hover:shadow-emerald-500/50">
+                        <i class="fa-solid fa-download mr-2"></i>Export Configuration
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer Footer -->
+        <footer class="mt-12 glass rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+                <i class="fa-solid fa-shield-halved text-2xl text-amber-400 mt-1"></i>
+                <div class="text-xs text-slate-400 space-y-2">
+                    <p class="font-semibold text-slate-300">Educational Disclaimer</p>
+                    <p>This interactive interface is based solely on the uploaded document "Detailed Analysis of the Ultimate Best Penis and Vagina Fit for Women" for educational reference and configuration visualization purposes only.</p>
+                    <p>No explicit content is displayed, described, or generated. All codes are numerical references from the source document. This tool does not provide medical advice, relationship counseling, or explicit instruction.</p>
+                    <p>All interactions are abstracted to code selection. Users should consult appropriate professional resources for health or relationship matters.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let verbalState = null;
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('tab-active');
+                el.classList.add('glass');
+            });
+            
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.remove('glass');
+            document.getElementById('tab-' + tabName).classList.add('tab-active');
+            
+            if (tabName === 'summary') {
+                updateSummary();
+            }
+        }
+
+        // Verbal Interaction
+        function toggleVerbal(type) {
+            const btnCan = document.getElementById('btnCan');
+            const btnNoCan = document.getElementById('btnNoCan');
+            const status = document.getElementById('verbalStatus');
+            
+            btnCan.classList.remove('bg-violet-500/30', 'border-violet-500');
+            btnNoCan.classList.remove('bg-pink-500/30', 'border-pink-500');
+            
+            if (verbalState === type) {
+                verbalState = null;
+                status.textContent = 'Status: Inactive';
+            } else {
+                verbalState = type;
+                if (type === 'can') {
+                    btnCan.classList.add('bg-violet-500/30', 'border-violet-500');
+                    status.textContent = 'Status: "I can" active - Performance intensity increased per page 16';
+                } else {
+                    btnNoCan.classList.add('bg-pink-500/30', 'border-pink-500');
+                    status.textContent = 'Status: "no I can" active - Performance intensity increased per page 16';
+                }
+            }
+        }
+
+        // Tighter Slider
+        document.getElementById('tighterSlider').addEventListener('input', function(e) {
+            document.getElementById('tighterValue').textContent = 'Level: ' + e.target.value;
+        });
+
+        // Compatibility Check Logic
+        function runCompatibilityCheck() {
+            const tightness = document.getElementById('tightness').value;
+            const throbbing = document.getElementById('throbbing').value;
+            const ejaculation = document.getElementById('ejaculation').value;
+            const rimHold = document.getElementById('rimHold').value;
+            const internalHold = document.getElementById('internalHold').value;
+            const looseness = document.getElementById('looseness').value;
+            
+            const resultDiv = document.getElementById('compatibilityResult');
+            const statusDiv = document.getElementById('compatibilityStatus');
+            const detailsDiv = document.getElementById('compatibilityDetails');
+            
+            resultDiv.classList.remove('hidden');
+            
+            let isMatch = true;
+            let issues = [];
+            let strengths = [];
+            
+            // Check if selections made
+            if (!tightness && !throbbing) {
+                statusDiv.innerHTML = '<div class="flex items-center text-amber-400"><i class="fa-solid fa-triangle-exclamation mr-3 text-2xl"></i><span class="font-bold">Incomplete Configuration</span></div>';
+                detailsDiv.innerHTML = '<p class="text-slate-400">Please select at least one penis characteristic to analyze compatibility.</p>';
+                return;
+            }
+            
+            if (!rimHold && !internalHold) {
+                statusDiv.innerHTML = '<div class="flex items-center text-amber-400"><i class="fa-solid fa-triangle-exclamation mr-3 text-2xl"></i><span class="font-bold">Incomplete Configuration</span></div>';
+                detailsDiv.innerHTML = '<p class="text-slate-400">Please select at least one vagina characteristic to analyze compatibility.</p>';
+                return;
+            }
+            
+            // Compatibility Rules from document
+            const tightThrobbingCodes = ['768938521', '76779838687']; // Tight Throbbing, In Pussy Hard
+            const hardThrobbingCodes = ['7677489827', '7671386274']; // Hard, Hard Fast
+            const softThrobbing = '72859387';
+            
+            const tightRimCodes = ['7298387543', '7277185274']; // Tight, Tight Tight
+            const looseHolds = ['721878562', '728753867'];
+            
+            // Rule 1: Tight throbbing needs tight hold
+            if (tightThrobbingCodes.includes(throbbing) && rimHold && !tightRimCodes.includes(rimHold)) {
+                isMatch = false;
+                issues.push('Tight throbbing pattern selected but rim hold is not maximum tightness. Consider "Tight" or "Tight Tight" per document.');
+            } else if (tightThrobbingCodes.includes(throbbing) && tightRimCodes.includes(rimHold)) {
+                strengths.push('Tight throbbing correctly paired with tight rim hold for firm comfortable fit.');
+            }
+            
+            // Rule 2: Soft throbbing with loose
+            if (throbbing === softThrobbing && looseness && looseHolds.includes(looseness)) {
+                strengths.push('Soft throbbing appropriately paired with looseness adjustment.');
+            } else if (throbbing === softThrobbing && !looseness && tightRimCodes.includes(rimHold)) {
+                isMatch = false;
+                issues.push('Soft throbbing with tight rim may cause mismatch. Consider looseness adjustment.');
+            }
+            
+            // Rule 3: Hard throbbing needs moderate to tight hold
+            if (hardThrobbingCodes.includes(throbbing) && rimHold === '7284380892') {
+                strengths.push('Hard throbbing with Hold 1 creates firm comfortable fit.');
+            }
+            
+            // Rule 4: Internal hold alignment
+            if (internalHold === '727718721' && throbbing !== softThrobbing) {
+                strengths.push('Tight Grip Wet enhances hold for non-soft configurations.');
+            }
+            
+            if (internalHold === '7277185284' && tightThrobbingCodes.includes(throbbing)) {
+                strengths.push('Tight Grip Dry maximizes grip for tight throbbing patterns.');
+            }
+            
+            // Display results
+            if (isMatch) {
+                statusDiv.innerHTML = '<div class="flex items-center text-emerald-400"><i class="fa-solid fa-circle-check mr-3 text-3xl"></i><span class="font-bold text-2xl">MATCH</span></div>';
+                statusDiv.innerHTML += '<p class="text-sm text-slate-300 mt-2">Codes correspond for firm comfortable fit without pain per document rules.</p>';
+            } else {
+                statusDiv.innerHTML = '<div class="flex items-center text-amber-400"><i class="fa-solid fa-circle-exclamation mr-3 text-3xl"></i><span class="font-bold text-2xl">ADJUST</span></div>';
+                statusDiv.innerHTML += '<p class="text-sm text-slate-300 mt-2">Adjustments recommended for optimal firm comfortable fit.</p>';
+            }
+            
+            let detailsHTML = '';
+            if (strengths.length > 0) {
+                detailsHTML += '<div class="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 mb-3">';
+                detailsHTML += '<p class="font-semibold text-emerald-300 mb-2"><i class="fa-solid fa-thumbs-up mr-2"></i>Compatibility Strengths</p>';
+                strengths.forEach(s => {
+                    detailsHTML += `<p class="text-sm text-slate-300 ml-6">• ${s}</p>`;
+                });
+                detailsHTML += '</div>';
+            }
+            
+            if (issues.length > 0) {
+                detailsHTML += '<div class="p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">';
+                detailsHTML += '<p class="font-semibold text-amber-300 mb-2"><i class="fa-solid fa-wrench mr-2"></i>Recommended Adjustments</p>';
+                issues.forEach(i => {
+                    detailsHTML += `<p class="text-sm text-slate-300 ml-6">• ${i}</p>`;
+                });
+                detailsHTML += '</div>';
+            }
+            
+            if (strengths.length === 0 && issues.length === 0) {
+                detailsHTML = '<p class="text-slate-400">Configuration appears neutral. No specific conflicts detected based on document rules.</p>';
+            }
+            
+            detailsDiv.innerHTML = detailsHTML;
+        }
+
+        // Update Summary
+        function updateSummary() {
+            const penisCodes = [];
+            const vaginaCodes = [];
+            
+            // Collect Penis Codes
+            const tightness = document.getElementById('tightness');
+            if (tightness.value) penisCodes.push({name: 'Tightness', code: tightness.value, desc: tightness.options[tightness.selectedIndex].text});
+            
+            const throbbing = document.getElementById('throbbing');
+            if (throbbing.value) penisCodes.push({name: 'Throbbing Type', code: throbbing.value, desc: throbbing.options[throbbing.selectedIndex].text});
+            
+            const ejaculation = document.getElementById('ejaculation');
+            if (ejaculation.value) penisCodes.push({name: 'Ejaculation Control', code: ejaculation.value, desc: ejaculation.options[ejaculation.selectedIndex].text});
+            
+            // Collect Vagina Codes
+            const rimHold = document.getElementById('rimHold');
+            if (rimHold.value) vaginaCodes.push({name: 'Rim Hold', code: rimHold.value, desc: rimHold.options[rimHold.selectedIndex].text});
+            
+            const internalHold = document.getElementById('internalHold');
+            if (internalHold.value) vaginaCodes.push({name: 'Internal Hold', code: internalHold.value, desc: internalHold.options[internalHold.selectedIndex].text});
+            
+            const looseness = document.getElementById('looseness');
+            if (looseness.value) vaginaCodes.push({name: 'Looseness', code: looseness.value, desc: looseness.options[looseness.selectedIndex].text});
+            
+            // Squanks
+            ['squank1', 'squank2', 'squank10', 'squank21'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el.checked) vaginaCodes.push({name: el.nextElementSibling.textContent.split(':')[0], code: el.value, desc: el.nextElementSibling.textContent});
+            });
+            
+            // Arousal
+            ['arousalClit', 'arousalVagina'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el.checked) vaginaCodes.push({name: el.nextElementSibling.textContent.split(':')[0], code: el.value, desc: el.nextElementSibling.textContent});
+            });
+            
+            // Display Lists
+            const penisList = document.getElementById('penisCodeList');
+            const vaginaList = document.getElementById('vaginaCodeList');
+            
+            penisList.innerHTML = penisCodes.length > 0 ? penisCodes.map(c => 
+                `<div class="flex justify-between items-center p-2 rounded bg-slate-900/30">
+                    <span class="text-violet-300">${c.name}</span>
+                    <span class="text-violet-400 code-badge">${c.code}</span>
+                </div>`
+            ).join('') : '<p class="text-slate-500">No codes selected</p>';
+            
+            vaginaList.innerHTML = vaginaCodes.length > 0 ? vaginaCodes.map(c => 
+                `<div class="flex justify-between items-center p-2 rounded bg-slate-900/30">
+                    <span class="text-pink-300">${c.name}</span>
+                    <span class="text-pink-400 code-badge">${c.code}</span>
+                </div>`
+            ).join('') : '<p class="text-slate-500">No codes selected</p>';
+            
+            // Best of Both Table
+            const bestOfBoth = [
+                {category: 'Tightness', code: '7648287418', desc: 'Standard optimal tightness'},
+                {category: 'Throbbing', code: '768938521', desc: 'Tight Throbbing preferred'},
+                {category: 'Rim Hold', code: '7277185274', desc: 'Tight Tight for maximum grip'},
+                {category: 'Internal Hold', code: '727718721', desc: 'Tight Grip Wet for lubrication + hold'},
+                {category: 'Squank Sequence', code: '1-2-10-21', desc: 'Sequential activation optimal'}
+            ];
+            
+            const allSelectedCodes = [...penisCodes.map(c => c.code), ...vaginaCodes.map(c => c.code)];
+            
+            const tableHTML = bestOfBoth.map(item => {
+                const isSelected = allSelectedCodes.includes(item.code) || 
+                                 (item.code === '1-2-10-21' && ['squank1','squank2','squank10','squank21'].every(id => document.getElementById(id).checked));
+                const rowClass = isSelected ? 'highlight-row' : '';
+                const statusIcon = isSelected ? '<i class="fa-solid fa-circle-check text-emerald-400"></i>' : '<i class="fa-solid fa-circle text-slate-600"></i>';
+                
+                return `<tr class="border-b border-slate-800 ${rowClass}">
+                    <td class="py-3 px-4 font-medium">${item.category}</td>
+                    <td class="py-3 px-4 font-mono text-violet-300">${item.code}</td>
+                    <td class="py-3 px-4 text-slate-400 text-xs">${item.desc}</td>
+                    <td class="py-3 px-4 text-center">${statusIcon}</td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('bestOfBothTable').innerHTML = tableHTML;
+        }
+
+        // Export Configuration
+        function exportConfiguration() {
+            const config = {
+                document: 'Detailed Analysis of the Ultimate Best Penis and Vagina Fit for Women',
+                timestamp: new Date().toISOString(),
+                penis: {
+                    tightness: document.getElementById('tightness').value,
+                    throbbing: document.getElementById('throbbing').value,
+                    ejaculation: document.getElementById('ejaculation').value
+                },
+                vagina: {
+                    rimHold: document.getElementById('rimHold').value,
+                    internalHold: document.getElementById('internalHold').value,
+                    looseness: document.getElementById('looseness').value
+                },
+                orgasmic: {
+                    squanks: ['squank1','squank2','squank10','squank21'].filter(id => document.getElementById(id).checked).map(id => document.getElementById(id).value),
+                    arousal: ['arousalClit','arousalVagina'].filter(id => document.getElementById(id).checked).map(id => document.getElementById(id).value)
+                },
+                adjustments: {
+                    tighterLevel: document.getElementById('tighterSlider').value,
+                    verbalInteraction: verbalState
+                },
+                disclaimer: 'Educational reference only - No explicit content'
+            };
+            
+            const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ultimate-fit-code-config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        updateSummary();
+    </script>
+</body>
+</html>
